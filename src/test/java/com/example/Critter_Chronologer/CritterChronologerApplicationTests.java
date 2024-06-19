@@ -1,11 +1,15 @@
 package com.example.Critter_Chronologer;
 
-import com.example.Critter_Chronologer.pet.PetController;
-import com.example.Critter_Chronologer.pet.PetDTO;
-import com.example.Critter_Chronologer.pet.PetType;
-import com.example.Critter_Chronologer.schedule.ScheduleController;
-import com.example.Critter_Chronologer.schedule.ScheduleDTO;
-import com.example.Critter_Chronologer.user.*;
+import com.example.Critter_Chronologer.controller.PetController;
+import com.example.Critter_Chronologer.DTO.PetDTO;
+import com.example.Critter_Chronologer.controller.UserController;
+import com.example.Critter_Chronologer.entity.EmployeeSkill;
+import com.example.Critter_Chronologer.entity.PetType;
+import com.example.Critter_Chronologer.controller.ScheduleController;
+import com.example.Critter_Chronologer.DTO.ScheduleDTO;
+import com.example.Critter_Chronologer.DTO.CustomerDTO;
+import com.example.Critter_Chronologer.DTO.EmployeeDTO;
+import com.example.Critter_Chronologer.DTO.EmployeeRequestDTO;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.junit.jupiter.api.Assertions;

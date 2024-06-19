@@ -1,4 +1,4 @@
-package com.example.Critter_Chronologer.pet;
+package com.example.Critter_Chronologer.entity;
 
 /**
  * A example list of pet type metadata that could be included on a request to create a pet.

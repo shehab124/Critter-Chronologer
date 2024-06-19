@@ -1,5 +1,11 @@
-package com.example.Critter_Chronologer.user;
+package com.example.Critter_Chronologer.controller;
 
+import com.example.Critter_Chronologer.DTO.CustomerDTO;
+import com.example.Critter_Chronologer.DTO.EmployeeDTO;
+import com.example.Critter_Chronologer.DTO.EmployeeRequestDTO;
+import com.example.Critter_Chronologer.entity.Customer;
+import com.example.Critter_Chronologer.service.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
@@ -16,9 +22,20 @@ import java.util.Set;
 @RequestMapping("/user")
 public class UserController {
 
+    @Autowired
+    CustomerService customerService;
+
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
-        throw new UnsupportedOperationException();
+        Customer entity = CustomerDTO.customerDTOToEntity(customerDTO);
+        entity = customerService.createCustomer(entity);
+
+        CustomerDTO dto = CustomerDTO.customerEntityToDTO(entity);
+
+        return dto;
+//        return CustomerDTO.customerEntityToDTO(
+//                customerService.createCustomer(CustomerDTO.customerDTOToEntity(customerDTO))
+//        );
     }
 
     @GetMapping("/customer")

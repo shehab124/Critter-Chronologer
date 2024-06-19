@@ -1,5 +1,6 @@
-package com.example.Critter_Chronologer.schedule;
+package com.example.Critter_Chronologer.controller;
 
+import com.example.Critter_Chronologer.DTO.ScheduleDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -1,6 +1,6 @@
-package com.example.Critter_Chronologer.schedule;
+package com.example.Critter_Chronologer.DTO;
 
-import com.example.Critter_Chronologer.user.EmployeeSkill;
+import com.example.Critter_Chronologer.entity.EmployeeSkill;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
