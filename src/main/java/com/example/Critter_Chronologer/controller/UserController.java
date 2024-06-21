@@ -4,12 +4,17 @@ import com.example.Critter_Chronologer.DTO.CustomerDTO;
 import com.example.Critter_Chronologer.DTO.EmployeeDTO;
 import com.example.Critter_Chronologer.DTO.EmployeeRequestDTO;
 import com.example.Critter_Chronologer.entity.Customer;
+import com.example.Critter_Chronologer.entity.Pet;
 import com.example.Critter_Chronologer.service.CustomerService;
+import com.example.Critter_Chronologer.service.PetService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -25,17 +30,17 @@ public class UserController {
     @Autowired
     CustomerService customerService;
 
+    @Autowired
+    PetService petService;
+
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
-        Customer entity = CustomerDTO.customerDTOToEntity(customerDTO);
-        entity = customerService.createCustomer(entity);
 
-        CustomerDTO dto = CustomerDTO.customerEntityToDTO(entity);
-
-        return dto;
-//        return CustomerDTO.customerEntityToDTO(
-//                customerService.createCustomer(CustomerDTO.customerDTOToEntity(customerDTO))
-//        );
+        return customerEntityToDTO(
+                customerService.createCustomer(
+                        customerDTOToEntity(customerDTO)
+                )
+        );
     }
 
     @GetMapping("/customer")
@@ -66,6 +71,50 @@ public class UserController {
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
         throw new UnsupportedOperationException();
+    }
+
+
+    public Customer customerDTOToEntity(CustomerDTO dto)
+    {
+        Customer customer = new Customer();
+
+        List<Pet> pets = new ArrayList<>();
+
+        if(dto.getPetIds() != null)
+        {
+            List<Long> ids = dto.getPetIds();
+
+            for(int i = 0; i < ids.size(); i++)
+            {
+                Optional<Pet> pet = petService.findPetById(ids.get(i));
+                if(pet.isPresent())
+                    pets.add(pet.get());
+            }
+            customer.setPets(pets);
+        }
+
+        BeanUtils.copyProperties(dto, customer);
+        return customer;
+    }
+
+    public CustomerDTO customerEntityToDTO(Customer customer)
+    {
+        CustomerDTO dto = new CustomerDTO();
+
+        if(customer.getPets() != null)
+        {
+            List<Pet> pets = customer.getPets();
+            List<Long> ids = new ArrayList<>();
+
+            for(Pet pet : pets)
+            {
+                ids.add(pet.getId());
+            }
+            dto.setPetIds(ids);
+        }
+
+        BeanUtils.copyProperties(customer, dto);
+        return dto;
     }
 
 }

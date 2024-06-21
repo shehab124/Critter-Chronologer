@@ -1,11 +1,13 @@
 package com.example.Critter_Chronologer.DTO;
 
 import com.example.Critter_Chronologer.entity.Customer;
+import com.example.Critter_Chronologer.service.PetService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -24,18 +26,5 @@ public class CustomerDTO {
     private String notes;
     private List<Long> petIds;
 
-    public static Customer customerDTOToEntity(CustomerDTO dto)
-    {
-        Customer customer = new Customer();
-        BeanUtils.copyProperties(dto, customer);
-        return customer;
-    }
-
-    public static CustomerDTO customerEntityToDTO(Customer customer)
-    {
-        CustomerDTO dto = new CustomerDTO();
-        BeanUtils.copyProperties(customer, dto);
-        return dto;
-    }
 
 }

@@ -26,18 +26,4 @@ public class PetDTO {
     private LocalDate birthDate;
     private String notes;
 
-    public static Pet petDTOToEntity(PetDTO dto)
-    {
-        Pet pet = new Pet();
-        BeanUtils.copyProperties(dto, pet);
-        return pet;
-    }
-
-    public static PetDTO petEntityToDTO(Pet pet)
-    {
-        PetDTO dto = new PetDTO();
-        BeanUtils.copyProperties(pet, dto);
-        return dto;
-    }
-
 }

@@ -24,8 +24,8 @@ public class Pet {
     private LocalDate birthDate;
     private String notes;
 
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
 }

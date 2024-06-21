@@ -2,6 +2,7 @@ package com.example.Critter_Chronologer.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Nationalized;
 
 import java.util.List;
 
@@ -17,11 +18,13 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Nationalized
     private String name;
+
     private String phoneNumber;
     private String notes;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
-    private List<Pet> petList;
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Pet> pets;
 
 }
