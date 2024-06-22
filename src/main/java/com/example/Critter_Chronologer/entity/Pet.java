@@ -24,7 +24,7 @@ public class Pet {
     private LocalDate birthDate;
     private String notes;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 

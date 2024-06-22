@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,24 +28,40 @@ public class PetController {
 
     @PostMapping
     public PetDTO savePet(@RequestBody PetDTO petDTO) {
-
         return petEntityToDTO(petService.createPet(petDTOToEntity(petDTO)));
-
     }
 
     @GetMapping("/{petId}")
     public PetDTO getPet(@PathVariable long petId) {
-        throw new UnsupportedOperationException();
+        Optional<Pet> pet = petService.findPetById(petId);
+
+        return pet.map(this::petEntityToDTO).orElse(null);
     }
 
     @GetMapping
     public List<PetDTO> getPets(){
-        throw new UnsupportedOperationException();
+        Iterable<Pet> pets = petService.getPets();
+        List<PetDTO> petDTOS  = new ArrayList<>();
+        for(Pet pet : pets)
+        {
+            petDTOS.add(petEntityToDTO(pet));
+        }
+        return petDTOS;
     }
 
     @GetMapping("/owner/{ownerId}")
     public List<PetDTO> getPetsByOwner(@PathVariable long ownerId) {
-        throw new UnsupportedOperationException();
+        List<Pet> pets = petService.getPetListByOwnerId(ownerId);
+        List<PetDTO> petDTOS = new ArrayList<>();
+        if(pets != null)
+        {
+            for (Pet pet : pets)
+            {
+                petDTOS.add(petEntityToDTO(pet));
+            }
+            return petDTOS;
+        }
+        return null;
     }
 
     public Pet petDTOToEntity(PetDTO dto)
