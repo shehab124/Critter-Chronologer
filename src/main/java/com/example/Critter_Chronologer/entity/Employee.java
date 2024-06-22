@@ -23,8 +23,10 @@ public class Employee {
     private String name;
 
     @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
     private Set<EmployeeSkill> skills;
 
     @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
     private Set<DayOfWeek> daysAvailable;
 }

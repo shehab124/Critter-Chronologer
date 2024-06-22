@@ -4,13 +4,17 @@ import com.example.Critter_Chronologer.DTO.CustomerDTO;
 import com.example.Critter_Chronologer.DTO.EmployeeDTO;
 import com.example.Critter_Chronologer.DTO.EmployeeRequestDTO;
 import com.example.Critter_Chronologer.entity.Customer;
+import com.example.Critter_Chronologer.entity.Employee;
+import com.example.Critter_Chronologer.entity.EmployeeSkill;
 import com.example.Critter_Chronologer.entity.Pet;
 import com.example.Critter_Chronologer.service.CustomerService;
+import com.example.Critter_Chronologer.service.EmployeeService;
 import com.example.Critter_Chronologer.service.PetService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +37,9 @@ public class UserController {
     @Autowired
     PetService petService;
 
+    @Autowired
+    EmployeeService employeeService;
+
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
 
@@ -45,32 +52,60 @@ public class UserController {
 
     @GetMapping("/customer")
     public List<CustomerDTO> getAllCustomers(){
-        throw new UnsupportedOperationException();
+        Iterable<Customer> customers = customerService.findAllCustomers();
+        List<CustomerDTO> customerDTOS = new ArrayList<>();
+
+        if(customers != null)
+        {
+            for (Customer customer : customers)
+            {
+                customerDTOS.add(customerEntityToDTO(customer));
+            }
+            return customerDTOS;
+        }
+
+        else return null;
     }
 
     @GetMapping("/customer/pet/{petId}")
-    public CustomerDTO getOwnerByPet(@PathVariable long petId){
-        throw new UnsupportedOperationException();
+    public CustomerDTO getOwnerByPet(@PathVariable long petId)
+    {
+        Optional<Pet> pet = petService.findPetById(petId);
+        if(pet.isPresent())
+        {
+            Customer customer = pet.get().getCustomer();
+            if(customer != null)
+                return customerEntityToDTO(customer);
+        }
+        return null;
     }
 
     @PostMapping("/employee")
     public EmployeeDTO saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+        return employeeEntityToDTO(employeeService.createEmployee(employeeDTOToEntity(employeeDTO)));
     }
 
     @PostMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+        Optional<Employee> optional = employeeService.findById(employeeId);
+        Employee employee;
+        return optional.map(this::employeeEntityToDTO).orElse(null);
     }
 
     @PutMapping("/employee/{employeeId}")
     public void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+        employeeService.setAvailability(daysAvailable, employeeId);
     }
 
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+        List<EmployeeDTO> result = new ArrayList<>();
+        List<Employee> employees = employeeService.findEmployeesForService(employeeDTO);
+        for(Employee employee : employees)
+        {
+            result.add(employeeEntityToDTO(employee));
+        }
+        return result;
     }
 
 
@@ -115,6 +150,25 @@ public class UserController {
 
         BeanUtils.copyProperties(customer, dto);
         return dto;
+    }
+
+
+    public EmployeeDTO employeeEntityToDTO(Employee employee)
+    {
+        EmployeeDTO dto = new EmployeeDTO();
+//        Set<DayOfWeek> days = employee.getDaysAvailable();
+//        Set<EmployeeSkill> skills = employee.getSkills();
+//        dto.setDaysAvailable(days);
+//        dto.setSkills(skills);
+        BeanUtils.copyProperties(employee, dto);
+        return dto;
+    }
+
+    public Employee employeeDTOToEntity(EmployeeDTO dto)
+    {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(dto, employee);
+        return employee;
     }
 
 }

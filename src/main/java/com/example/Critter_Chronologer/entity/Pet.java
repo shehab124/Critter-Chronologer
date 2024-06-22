@@ -20,9 +20,11 @@ public class Pet {
     private Long id;
 
     private String name;
-    private PetType type;
     private LocalDate birthDate;
     private String notes;
+
+    @Enumerated(EnumType.STRING)
+    private PetType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")

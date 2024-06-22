@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -19,6 +20,5 @@ import java.util.Set;
 @Getter
 public class EmployeeRequestDTO {
     private Set<EmployeeSkill> skills;
-    private LocalDate date;
-
+    private DayOfWeek date;
 }
