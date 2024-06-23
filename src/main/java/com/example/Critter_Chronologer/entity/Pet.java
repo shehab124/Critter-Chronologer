@@ -26,7 +26,7 @@ public class Pet {
     @Enumerated(EnumType.STRING)
     private PetType type;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 

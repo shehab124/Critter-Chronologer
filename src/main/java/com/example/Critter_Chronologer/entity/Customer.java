@@ -24,7 +24,7 @@ public class Customer {
     private String phoneNumber;
     private String notes;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Pet> pets;
 
 }

@@ -45,7 +45,7 @@ public class EmployeeService {
 
     public List<Employee> findEmployeesForService(EmployeeRequestDTO employeeDTO)
     {
-        List<Employee> employees = employeeRepository.findByDaysAvailable(employeeDTO.getDate());
+        List<Employee> employees = employeeRepository.findByDaysAvailable(employeeDTO.getDate().getDayOfWeek());
         List<Employee> result = new ArrayList<>();
 
         Set<EmployeeSkill> skillsNeeded = employeeDTO.getSkills();
@@ -53,7 +53,7 @@ public class EmployeeService {
         for(Employee employee : employees)
         {
            Set<EmployeeSkill> skills = employee.getSkills();
-           if(skills.equals(skillsNeeded))
+           if(skills.containsAll(skillsNeeded))
            {
                result.add(employee);
            }

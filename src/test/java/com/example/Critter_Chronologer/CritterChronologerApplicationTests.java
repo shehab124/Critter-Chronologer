@@ -12,8 +12,7 @@ import com.example.Critter_Chronologer.DTO.EmployeeDTO;
 import com.example.Critter_Chronologer.DTO.EmployeeRequestDTO;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -25,6 +24,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @SpringBootTest(classes = CritterChronologerApplication.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CritterChronologerApplicationTests {
 
 	@Autowired
@@ -37,6 +37,7 @@ class CritterChronologerApplicationTests {
 	private ScheduleController scheduleController;
 
 	@Test
+	@Order(1)
 	public void testCreateCustomer(){
 		CustomerDTO customerDTO = createCustomerDTO();
 		CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
@@ -47,6 +48,7 @@ class CritterChronologerApplicationTests {
 	}
 
 	@Test
+	@Order(2)
 	public void testCreateEmployee(){
 		EmployeeDTO employeeDTO = createEmployeeDTO();
 		EmployeeDTO newEmployee = userController.saveEmployee(employeeDTO);
@@ -57,6 +59,7 @@ class CritterChronologerApplicationTests {
 	}
 
 	@Test
+	@Order(3)
 	public void testAddPetsToCustomer() {
 		CustomerDTO customerDTO = createCustomerDTO();
 		CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
@@ -82,6 +85,7 @@ class CritterChronologerApplicationTests {
 	}
 
 	@Test
+	@Order(4)
 	public void testFindPetsByOwner() {
 		CustomerDTO customerDTO = createCustomerDTO();
 		CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
@@ -100,6 +104,7 @@ class CritterChronologerApplicationTests {
 	}
 
 	@Test
+	@Order(5)
 	public void testFindOwnerByPet() {
 		CustomerDTO customerDTO = createCustomerDTO();
 		CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
@@ -114,6 +119,7 @@ class CritterChronologerApplicationTests {
 	}
 
 	@Test
+	@Order(6)
 	public void testChangeEmployeeAvailability() {
 		EmployeeDTO employeeDTO = createEmployeeDTO();
 		EmployeeDTO emp1 = userController.saveEmployee(employeeDTO);
@@ -127,6 +133,7 @@ class CritterChronologerApplicationTests {
 	}
 
 	@Test
+	@Order(7)
 	public void testFindEmployeesByServiceAndTime() {
 		EmployeeDTO emp1 = createEmployeeDTO();
 		EmployeeDTO emp2 = createEmployeeDTO();
@@ -164,6 +171,7 @@ class CritterChronologerApplicationTests {
 	}
 
 	@Test
+	@Order(8)
 	public void testSchedulePetsForServiceWithEmployee() {
 		EmployeeDTO employeeTemp = createEmployeeDTO();
 		employeeTemp.setDaysAvailable(Sets.newHashSet(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY));
@@ -188,6 +196,7 @@ class CritterChronologerApplicationTests {
 	}
 
 	@Test
+	@Order(9)
 	public void testFindScheduleByEntities() {
 		ScheduleDTO sched1 = populateSchedule(1, 2, LocalDate.of(2019, 12, 25), Sets.newHashSet(EmployeeSkill.FEEDING, EmployeeSkill.WALKING));
 		ScheduleDTO sched2 = populateSchedule(3, 1, LocalDate.of(2019, 12, 26), Sets.newHashSet(EmployeeSkill.PETTING));

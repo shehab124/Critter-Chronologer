@@ -20,5 +20,5 @@ import java.util.Set;
 @Getter
 public class EmployeeRequestDTO {
     private Set<EmployeeSkill> skills;
-    private DayOfWeek date;
+    private LocalDate date;
 }
