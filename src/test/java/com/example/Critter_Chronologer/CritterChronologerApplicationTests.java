@@ -79,7 +79,8 @@ class CritterChronologerApplicationTests {
 		Assertions.assertEquals(newPet.getName(), pets.get(0).getName());
 
 		//check to make sure customer now also contains pet
-		CustomerDTO retrievedCustomer = userController.getAllCustomers().get(0);
+		List<CustomerDTO> customers = userController.getAllCustomers();
+		CustomerDTO retrievedCustomer = userController.getAllCustomers().get(1);
 		Assertions.assertTrue(retrievedCustomer.getPetIds() != null && retrievedCustomer.getPetIds().size() > 0);
 		Assertions.assertEquals(retrievedCustomer.getPetIds().get(0), retrievedPet.getId());
 	}
@@ -133,7 +134,7 @@ class CritterChronologerApplicationTests {
 	}
 
 	@Test
-	@Order(7)
+	@Order(1)
 	public void testFindEmployeesByServiceAndTime() {
 		EmployeeDTO emp1 = createEmployeeDTO();
 		EmployeeDTO emp2 = createEmployeeDTO();
